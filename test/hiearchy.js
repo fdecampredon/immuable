@@ -33,21 +33,16 @@ test('hiearchy update', function (t) {
     
     t.test('update', function (t) {
         var result = immuable(source, function (value) {
-            updatedResult = value;
+            t.notEqual(result, value, 'the top level object should have been updated');
+            t.notEqual(result.address, value.address, 'the object that have been updated should have changed');  
+            t.equal(value.address, updatedAddress, 'the new child object should be the result of update');
+            t.equal(result.car, value.car, 'child objects that does not have changed should not have been updated');
+            t.end();
         }), 
-        updatedResult,
         updatedAddress = result.address.update({phonenumber: '2234232523'});
-        
-        t.notEqual(result, updatedResult, 'the top level object should have been updated');
-        t.notEqual(result.address, updatedResult.address, 'the object that have been updated should have changed');  
-        t.equal(updatedResult.address, updatedAddress, 'the new child object should be the result of update');
-        t.equal(result.car, updatedResult.car, 'child objects that does not have changed should not have been updated');
-        t.equal(updatedResult.car.update({year: '2004'}), updatedResult.car, 'the object that have been updated should have changed');
-        t.equal(updatedAddress, updatedResult.address, 'after the first update, child objects should update their new parent');
-        t.end();    
     });
     
-    /*t.test('multipe parents', function (t) {
+    t.test('multipe parents', function (t) {
         var obj1 = {},
             obj2 = {
                 obj3: {}
@@ -60,22 +55,23 @@ test('hiearchy update', function (t) {
         
         obj1.child = obj2.child = child;
         var result = immuable(root, function(value) {
-            updateResult = value;
-        }), updateResult;
+            t.equal(value.obj1.child, value.obj2.child, 'instance should still be the same after update');
+            t.equal(value.obj1.child, updatedChild, 'child instance should be the same that updare result');
+            t.notEqual(result.obj1, value.obj1, 'should have created a new instance for each object updated');
+            t.notEqual(result.obj2, value.obj2, 'should have created a new instance for each object updated');
+            t.equal(result.obj2.obj3, value.obj2.obj3, 'object that has not been updated should remain the same');
+            t.end();
+        });
         t.equal(result.obj1.child, result.obj2.child, 
                 'a same occurence of an object in source should result in ' + 
                 'the same occurence in the immuable hiearchy');
         
+        
         var updatedChild = result.obj1.child.update({
             foo: 'bar'
         });
-        t.equal(updateResult.obj1.child, updateResult.obj2.child,updatedChild, 'instance should still be the same after update');
-        t.equal(updateResult.obj1.child, updatedChild, 'child instance should be the same that updare result');
-        t.notEqual(result.obj1, updateResult.obj1, 'should have created a new instance for each object updated');
-        t.notEqual(result.obj2, updateResult.obj2, 'should have created a new instance for each object updated');
-        t.notEqual(result.obj2, updateResult.obj2, 'should have created a new instance for each object updated');
-        t.equal(result.obj2.obj3, updatedChild.obj2.obj3, 'object that has not been updated should remain the same');
         
-    });*/
+        
+    });
     
 });
