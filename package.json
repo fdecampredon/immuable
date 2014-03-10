@@ -13,6 +13,9 @@
   "license": "BSD-2-Clause",
   "dependencies": {},
   "devDependencies": {
-    "tape": "~2.10.2"
+    "tape": "~2.10.2",
+    "sinon": "~1.9.0",
+    "grunt": "~0.4.3",
+    "grunt-regenerator": "~0.3.0"
   }
 }
