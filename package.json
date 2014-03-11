@@ -11,7 +11,9 @@
   },
   "author": "François de Campredon <francois.de.campredon@gmail.com> (https://github.com/fdecampredon)",
   "license": "BSD-2-Clause",
-  "dependencies": {},
+  "peerDependencies": {
+    "mori": "~0.2.x"
+  },
   "devDependencies": {
     "tape": "~2.10.2",
     "sinon": "~1.9.0",
